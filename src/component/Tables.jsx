@@ -4,11 +4,20 @@ import FormAddTable from './FormAddTable'
 import { v4 as uuidv4 } from 'uuid'
 import FormSupTable from './FormSupTable'
 import FormAddTask from './FormAddTask'
+import {Link} from 'react-router-dom'
 
 export default function Tables() {
 
     const [tables, setTables] = useState([])
     const [tasks, setTasks] = useState([])
+
+    useEffect(()=>{
+        let connected = localStorage.getItem('connected')
+    
+        if(!connected){
+          return navigate('/login')
+        }
+    }, [])
 
     useEffect(()=>{
         setTables([
@@ -68,6 +77,7 @@ export default function Tables() {
 
   return (
     <div className="container">
+        <Link to="/" className="btn btn-primary">page d'accueil</Link>
         <div className="d-flex">
             <FormAddTable addTable={addTable}/>
             <FormSupTable tables={tables} deleteTable={deleteTable}/>

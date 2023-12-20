@@ -14,7 +14,6 @@ export default function FormAddTask({tables, addTask}) {
         addTask(taskContent, tableId)
         setTaskContent('')
         setTableId(0)
-
     }}>
         <div className="form-group">
                 <select className="form-control" value={tableId} onChange={(e)=>{
