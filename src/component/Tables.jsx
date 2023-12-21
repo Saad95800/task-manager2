@@ -14,6 +14,7 @@ export default function Tables() {
     const [formAddTableVisible, setFormAddTableVisible] = useState(false)
     const [formDropTableVisible, setFormDropTableVisible] = useState(false)
     const [formAddTaskVisible, setFormAddTaskVisible] = useState(false)
+    const [taskToEdit, setTaskToEdit] = useState(null)
 
     useEffect(()=>{
         let connected = localStorage.getItem('connected')
@@ -77,6 +78,7 @@ export default function Tables() {
             content: taskContent,
             tableId
         }])
+        hideFormUpdateTask()
     }
 
     const deletetask = (id) => {
@@ -91,20 +93,44 @@ export default function Tables() {
         setTasks(newTasks)
     }
 
+    const displayFormUpdateTask = (task) => {
+        setFormAddTaskVisible(true)
+        setTaskToEdit(task)
+    }
+
+    const hideFormUpdateTask = () => {
+        setFormAddTaskVisible(false)
+        setTaskToEdit(null)
+    }
+
+    const displayFormAddTask = () => {
+        setFormAddTableVisible(true); 
+        setTaskToEdit(null)
+    }
+
+    const updateTask = (taskContent, id_task) => {
+
+        let newTasks = [...tasks]
+        let index = newTasks.findIndex(t => t.id === id_task)
+        newTasks[index].content = taskContent
+        setTasks(newTasks)
+        hideFormUpdateTask()
+    }
+    
   return (
     <div className="container">
         <Link to="/" className="btn btn-primary">page d'accueil</Link>
         <div className="d-flex">
-        <button className="btn btn-success" onClick={()=>{ setFormAddTableVisible(true) }}>Ajouter un tableau</button>
+        <button className="btn btn-success" onClick={()=>{ displayFormAddTask() }}>Ajouter un tableau</button>
         <button className="btn btn-danger" onClick={()=>{ setFormDropTableVisible(true) }}>Supprimer un tableau</button>
         <button className="btn btn-primary" onClick={()=>{ setFormAddTaskVisible(true) }}>Ajouter une tâche</button>
             {formAddTableVisible && <FormAddTable addTable={addTable} setFormAddTableVisible={setFormAddTableVisible} />}
             {formDropTableVisible && <FormSupTable tables={tables} deleteTable={deleteTable} setFormDropTableVisible={setFormDropTableVisible} />}
-            {formAddTaskVisible && <FormAddTask tables={tables} addTask={addTask} setFormAddTaskVisible={setFormAddTaskVisible} />}
+            {formAddTaskVisible && <FormAddTask taskToEdit={taskToEdit} tables={tables} addTask={addTask} hideFormUpdateTask={hideFormUpdateTask} context={taskToEdit === null ? 'add' : 'edit'} setTaskToEdit={setTaskToEdit} updateTask={updateTask} />}
         </div>
         <div className="d-flex justify-content-start align-items-start">
             {tables.map((table, index)=>{
-                return <Table key={index} table={table} tasks={tasks} deletetask={deletetask} moveTask={moveTask}/>
+                return <Table key={index} table={table} tasks={tasks} deletetask={deletetask} moveTask={moveTask} displayFormUpdateTask={displayFormUpdateTask}/>
             })}
         </div>
     </div>

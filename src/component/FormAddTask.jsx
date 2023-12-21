@@ -1,26 +1,34 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 
-export default function FormAddTask({tables, addTask, setFormAddTaskVisible}) {
-
+export default function FormAddTask({tables, addTask, hideFormUpdateTask, context, updateTask, taskToEdit}) {
+    console.log(context)
     const [tableId, setTableId] = useState(0)
-    const [taskContent, setTaskContent] = useState('')
+    const [taskContent, setTaskContent] = useState(context === 'edit' ? taskToEdit.content : '')
 
   return (
     <div className="popup-overlay">
         <div className="m-3 border p-3 rounded-3" style={{backgroundColor: '#ffffffd6'}}>
             <button className="btn btn-danger" onClick={()=>{
-                setFormAddTaskVisible(false)
+                hideFormUpdateTask(false)
             }}>Fermer</button>
             <form onSubmit={(e)=>{
                     e.preventDefault()
-                    if(tableId.toString() === '0'){
+                    
+                    if( context === 'add' && tableId.toString() === '0'){
                         alert('Veuillez choisir un tableau pour votre tâche.'); return
                     }
-                    addTask(taskContent, tableId)
+
+                    if(context === 'add'){
+                        addTask(taskContent, tableId)
+                    }else{
+                        updateTask(taskContent, taskToEdit.id)
+                    }
+                    
                     setTaskContent('')
                     setTableId(0)
                 }}>
                 <div className="form-group">
+                        {context === 'add' && 
                         <select className="form-control" value={tableId} onChange={(e)=>{
                             setTableId(e.target.value)
                         }}>
@@ -28,7 +36,7 @@ export default function FormAddTask({tables, addTask, setFormAddTaskVisible}) {
                             {tables.map((table)=>{
                                 return <option key={table.id} value={table.id}>{table.title}</option>
                             })}
-                        </select>
+                        </select>}
                 </div>
                 <div className="form-group">
                     <label>Tâche</label>
