@@ -1,7 +1,12 @@
 import React from 'react'
 
-export default function Task({task}) {
+export default function Task({task, deletetask}) {
   return (
-    <div className="bg-white m-2 p-2 rounded-3">{task.content}</div>
+    <div className="mb-1 p-2 rounded bg-white d-flex justify-content-between" style={{cursor: 'pointer'}}>
+      {task.content}
+      <button type="button" className="btn-close" aria-label="close" onClick={()=>{
+        deletetask(task.id)
+      }}></button>
+    </div>
   )
 }

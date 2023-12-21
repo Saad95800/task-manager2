@@ -75,6 +75,11 @@ export default function Tables() {
         }])
     }
 
+    const deletetask = (id) => {
+        let newTasks = [...tasks].filter((task) => task.id.toString() !== id.toString())
+        setTasks(newTasks)
+    }
+
   return (
     <div className="container">
         <Link to="/" className="btn btn-primary">page d'accueil</Link>
@@ -85,7 +90,7 @@ export default function Tables() {
         </div>
         <div className="d-flex justify-content-start align-items-start">
             {tables.map((table, index)=>{
-                return <Table key={index} table={table} tasks={tasks} />
+                return <Table key={index} table={table} tasks={tasks} deletetask={deletetask} />
             })}
         </div>
     </div>
