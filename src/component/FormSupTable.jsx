@@ -1,12 +1,16 @@
 import React, {useState} from 'react'
 import { styleModal } from '../utils/styles'
 
-export default function FormSupTable({deleteTable, tables}) {
+export default function FormSupTable({deleteTable, tables, setFormDropTableVisible}) {
 
     const [idTableSelected, setIdTableSelected] = useState('0')
 
   return (
-    <div className="m-3 border p-3 rounded-3 bg-forms" style={{backgroundColor: '#ffffffd6'}}>
+    <div className="popup-overlay">
+        <div className="m-3 border p-3 rounded-3" style={{backgroundColor: '#ffffffd6'}}>
+        <button className="btn btn-danger" onClick={()=>{
+                setFormDropTableVisible(false)
+        }}>Fermer</button>
         <form onSubmit={(e)=>{
             e.preventDefault()
             console.log(idTableSelected)
@@ -32,6 +36,7 @@ export default function FormSupTable({deleteTable, tables}) {
                 </div>
             </div>
         </form>        
+    </div>
     </div>
 
   )

@@ -11,6 +11,10 @@ export default function Tables() {
     const [tables, setTables] = useState([])
     const [tasks, setTasks] = useState([])
 
+    const [formAddTableVisible, setFormAddTableVisible] = useState(false)
+    const [formDropTableVisible, setFormDropTableVisible] = useState(false)
+    const [formAddTaskVisible, setFormAddTaskVisible] = useState(false)
+
     useEffect(()=>{
         let connected = localStorage.getItem('connected')
     
@@ -84,9 +88,12 @@ export default function Tables() {
     <div className="container">
         <Link to="/" className="btn btn-primary">page d'accueil</Link>
         <div className="d-flex">
-            <FormAddTable addTable={addTable}/>
-            <FormSupTable tables={tables} deleteTable={deleteTable}/>
-            <FormAddTask tables={tables} addTask={addTask} />
+        <button className="btn btn-success" onClick={()=>{ setFormAddTableVisible(true) }}>Ajouter un tableau</button>
+        <button className="btn btn-danger" onClick={()=>{ setFormDropTableVisible(true) }}>Supprimer un tableau</button>
+        <button className="btn btn-primary" onClick={()=>{ setFormAddTaskVisible(true) }}>Ajouter une tâche</button>
+            {formAddTableVisible && <FormAddTable addTable={addTable} setFormAddTableVisible={setFormAddTableVisible} />}
+            {formDropTableVisible && <FormSupTable tables={tables} deleteTable={deleteTable} setFormDropTableVisible={setFormDropTableVisible} />}
+            {formAddTaskVisible && <FormAddTask tables={tables} addTask={addTask} setFormAddTaskVisible={setFormAddTaskVisible} />}
         </div>
         <div className="d-flex justify-content-start align-items-start">
             {tables.map((table, index)=>{
