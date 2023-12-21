@@ -84,6 +84,13 @@ export default function Tables() {
         setTasks(newTasks)
     }
 
+    const moveTask = (id_task_drag, id_table_drop) => {
+        let newTasks = [...tasks]
+        let index = newTasks.findIndex(t => t.id.toString() === id_task_drag.toString())
+        newTasks[index].tableId = id_table_drop
+        setTasks(newTasks)
+    }
+
   return (
     <div className="container">
         <Link to="/" className="btn btn-primary">page d'accueil</Link>
@@ -97,7 +104,7 @@ export default function Tables() {
         </div>
         <div className="d-flex justify-content-start align-items-start">
             {tables.map((table, index)=>{
-                return <Table key={index} table={table} tasks={tasks} deletetask={deletetask} />
+                return <Table key={index} table={table} tasks={tasks} deletetask={deletetask} moveTask={moveTask}/>
             })}
         </div>
     </div>
