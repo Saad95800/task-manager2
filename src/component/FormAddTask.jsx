@@ -6,11 +6,14 @@ export default function FormAddTask({tables, addTask, hideFormUpdateTask, contex
     const [taskContent, setTaskContent] = useState(context === 'edit' ? taskToEdit.content : '')
 
   return (
-    <div className="popup-overlay">
-        <div className="m-3 border p-3 rounded-3" style={{backgroundColor: '#ffffffd6'}}>
-            <button className="btn btn-danger" onClick={()=>{
-                hideFormUpdateTask(false)
-            }}>Fermer</button>
+    <div className="popup-overlay" onClick={()=>{
+        hideFormUpdateTask()
+    }}>
+        <div 
+        onClick={(e)=>{
+                e.stopPropagation()
+        }}
+        className="m-3 border p-3 rounded-3" style={{backgroundColor: '#ffffffd6'}}>
             <form onSubmit={(e)=>{
                     e.preventDefault()
                     
@@ -43,7 +46,7 @@ export default function FormAddTask({tables, addTask, hideFormUpdateTask, contex
                     <input type="text" className='form-control' value={taskContent} onChange={(e)=>{
                         setTaskContent(e.target.value)
                     }} />
-                    <input type="submit" className='btn btn-success' value="Ajouter une tâche" /> 
+                    <input type="submit" className='btn btn-success' value={context === 'edit' ? 'Modifier la tâche' : "Ajouter une tâche"} /> 
                 </div>
             </form>
         </div>

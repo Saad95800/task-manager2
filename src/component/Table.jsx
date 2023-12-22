@@ -1,7 +1,7 @@
 import React from 'react'
 import Task from './Task'
 
-export default function Table({table, tasks, deletetask, moveTask, displayFormUpdateTask}) {
+export default function Table({table, tasks, deletetask, moveTask , displayFormUpdateTable, displayFormUpdateTask}) {
 
   return (
     <div className="table p-2 m-3 rounded"
@@ -12,6 +12,9 @@ export default function Table({table, tasks, deletetask, moveTask, displayFormUp
       }}
       onDragOver={(e)=>{
         e.preventDefault()
+      }}
+      onClick={()=>{
+        displayFormUpdateTable(table)
       }}
     >
         <p>{table.title}</p>
