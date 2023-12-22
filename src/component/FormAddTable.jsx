@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 
 export default function FormAddTable({addTable, context, hideFormUpdateTable, tableToEdit, updateTable}) {
-    console.log(context)
+
     const [title, setTitle] = useState(context === 'edit' ? tableToEdit.title : '')
 
   return (

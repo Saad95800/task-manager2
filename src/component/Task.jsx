@@ -4,11 +4,11 @@ export default function Task({task, deletetask, displayFormUpdateTask}) {
   return (
     <div className="mb-1 p-2 rounded bg-white d-flex justify-content-between" style={{cursor: 'pointer'}}
       onDragStart={(e)=>{
-        console.log('drag')
         e.dataTransfer.setData('id_task', task.id)
       }}
       draggable="true"
-      onClick={()=>{
+      onClick={(e)=>{
+        e.stopPropagation()
         displayFormUpdateTask(task)
       }}
     >
