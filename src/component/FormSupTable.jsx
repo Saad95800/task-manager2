@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { styleModal } from '../utils/styles'
 
-export default function FormSupTable({deleteTable, tables, setFormDropTableVisible}) {
+export default function FormSupTable({displayMessage, deleteTable, tables, setFormDropTableVisible}) {
 
     const [idTableSelected, setIdTableSelected] = useState('0')
 
@@ -13,12 +13,11 @@ export default function FormSupTable({deleteTable, tables, setFormDropTableVisib
         }}>Fermer</button>
         <form onSubmit={(e)=>{
             e.preventDefault()
-            console.log(idTableSelected)
-            idTableSelected = 0
             if(idTableSelected.toString() === '0'){
                 alert('Veuillez sélectionner un tableau à supprimer.'); return
             }
             deleteTable(idTableSelected)
+            displayMessage('Tableau supprimé avec succès !', 'success')
             setIdTableSelected('0')
         }}>
             <div className="form-group">

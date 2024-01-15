@@ -1,7 +1,7 @@
 import React from 'react'
 import Task from './Task'
 
-export default function Table({table, tasks, deletetask, moveTask , displayFormUpdateTable, displayFormUpdateTask, moveTable}) {
+export default function Table({displayMessage, table, tasks, deletetask, moveTask , displayFormUpdateTable, displayFormUpdateTask, moveTable}) {
 
   return (
     <div className="table p-2 m-3 rounded"
@@ -35,7 +35,7 @@ export default function Table({table, tasks, deletetask, moveTask , displayFormU
         <p>{table.title}</p>
         {tasks.map((task)=>{
             if(table.id.toString() === task.tableId.toString()){
-                return <Task key={task.id} task={task} deletetask={deletetask} displayFormUpdateTask={displayFormUpdateTask}/>
+                return <Task key={task.id} displayMessage={displayMessage} task={task} deletetask={deletetask} displayFormUpdateTask={displayFormUpdateTask}/>
             }
         })}
     </div>

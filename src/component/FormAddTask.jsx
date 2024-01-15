@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react'
 
-export default function FormAddTask({tables, addTask, hideFormUpdateTask, context, updateTask, taskToEdit}) {
+export default function FormAddTask({displayMessage, tables, addTask, hideFormUpdateTask, context, updateTask, taskToEdit}) {
     console.log(context)
     const [tableId, setTableId] = useState(0)
     const [taskContent, setTaskContent] = useState(context === 'edit' ? taskToEdit.content : '')
@@ -23,8 +23,10 @@ export default function FormAddTask({tables, addTask, hideFormUpdateTask, contex
 
                     if(context === 'add'){
                         addTask(taskContent, tableId)
+                        displayMessage('Tache ajoutée avec succès !', 'success')
                     }else{
                         updateTask(taskContent, taskToEdit.id)
+                        displayMessage('Tache modifiée avec succès !', 'success')
                     }
                     
                     setTaskContent('')

@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 
-export default function FormAddTable({addTable, context, hideFormUpdateTable, tableToEdit, updateTable}) {
+export default function FormAddTable({displayMessage, addTable, context, hideFormUpdateTable, tableToEdit, updateTable}) {
 
     const [title, setTitle] = useState(context === 'edit' ? tableToEdit.title : '')
 
@@ -20,8 +20,10 @@ export default function FormAddTable({addTable, context, hideFormUpdateTable, ta
                 }
                 if(context === 'add'){
                     addTable(title)
+                    displayMessage('Tableau ajouté avec succès !', 'success')
                 }else{
                     updateTable(title, tableToEdit.id)
+                    displayMessage('Tableau modifié avec succès !', 'success')
                 }
                 setTitle('')
             }}

@@ -5,8 +5,9 @@ import { v4 as uuidv4 } from 'uuid'
 import FormSupTable from './FormSupTable'
 import FormAddTask from './FormAddTask'
 import {Link} from 'react-router-dom'
+import {produce} from 'immer'
 
-export default function Tables() {
+export default function Tables({displayMessage}) {
 
     const [tables, setTables] = useState([])
     const [tasks, setTasks] = useState([])
@@ -119,17 +120,30 @@ export default function Tables() {
     }
 
     const addTask = (taskContent, tableId) => {
-        setTasks([...tasks, {
-            id: uuidv4(),
-            content: taskContent,
-            tableId
-        }])
+
+        let nt = produce(tasks, function(tasksDraft){
+            let newTask = {
+                id: uuidv4(),
+                content: taskContent,
+                tableId
+            }
+
+            tasksDraft.push(newTask)
+        })
+
+        setTasks(nt)
+
         hideFormUpdateTask()
     }
 
-    const deletetask = (id) => {
-        let newTasks = [...tasks].filter((task) => task.id.toString() !== id.toString())
-        setTasks(newTasks)
+    const deletetask = (id_task) => {
+
+        setTasks(produce(tasks, (taskDraft)=>{
+
+            let index = taskDraft.findIndex(t => t.id.toString() === id_task.toString())
+            taskDraft.splice(index, 1)
+
+        }))
     }
 
     const moveTask = (id_task_drag, id_table_drop) => {
@@ -166,10 +180,12 @@ export default function Tables() {
 
     const updateTask = (taskContent, id_task) => {
 
-        let newTasks = [...tasks]
-        let index = newTasks.findIndex(t => t.id === id_task)
-        newTasks[index].content = taskContent
-        setTasks(newTasks)
+        setTasks(
+            produce(tasks, (tasksDraft)=>{
+                let index = tasksDraft.findIndex(task => task.id === id_task)
+                tasksDraft[index].content = taskContent
+            })
+        )
         hideFormUpdateTask()
     }
 
@@ -189,13 +205,13 @@ export default function Tables() {
         <button className="btn btn-success" onClick={()=>{ displayFormAddTask() }}>Ajouter un tableau</button>
         <button className="btn btn-danger" onClick={()=>{ setFormDropTableVisible(true) }}>Supprimer un tableau</button>
         <button className="btn btn-primary" onClick={()=>{ setFormAddTaskVisible(true) }}>Ajouter une tâche</button>
-            {formAddTableVisible && <FormAddTable updateTable={updateTable} tableToEdit={tableToEdit} addTable={addTable} context={tableToEdit === null ? 'add' : 'edit'} hideFormUpdateTable={hideFormUpdateTable} />}
-            {formDropTableVisible && <FormSupTable tables={tables} deleteTable={deleteTable} setFormDropTableVisible={setFormDropTableVisible} />}
-            {formAddTaskVisible && <FormAddTask taskToEdit={taskToEdit} tables={tables} addTask={addTask} hideFormUpdateTask={hideFormUpdateTask} context={taskToEdit === null ? 'add' : 'edit'} setTaskToEdit={setTaskToEdit} updateTask={updateTask} />}
+            {formAddTableVisible && <FormAddTable displayMessage={displayMessage} updateTable={updateTable} tableToEdit={tableToEdit} addTable={addTable} context={tableToEdit === null ? 'add' : 'edit'} hideFormUpdateTable={hideFormUpdateTable} />}
+            {formDropTableVisible && <FormSupTable displayMessage={displayMessage} tables={tables} deleteTable={deleteTable} setFormDropTableVisible={setFormDropTableVisible} />}
+            {formAddTaskVisible && <FormAddTask displayMessage={displayMessage} taskToEdit={taskToEdit} tables={tables} addTask={addTask} hideFormUpdateTask={hideFormUpdateTask} context={taskToEdit === null ? 'add' : 'edit'} setTaskToEdit={setTaskToEdit} updateTask={updateTask} />}
         </div>
         <div className="d-flex justify-content-start align-items-start">
             {tables.sort((a, b)=> ( a.order > b.order ? 1 : -1 )).map((table, index)=>{
-                return <Table key={index} moveTable={moveTable} displayFormUpdateTable={displayFormUpdateTable} table={table} tasks={tasks} deletetask={deletetask} moveTask={moveTask} displayFormUpdateTask={displayFormUpdateTask}/>
+                return <Table displayMessage={displayMessage} key={index} moveTable={moveTable} displayFormUpdateTable={displayFormUpdateTable} table={table} tasks={tasks} deletetask={deletetask} moveTask={moveTask} displayFormUpdateTask={displayFormUpdateTask}/>
             })}
         </div>
     </div>
