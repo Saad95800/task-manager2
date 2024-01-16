@@ -71,7 +71,7 @@ export const TableSlice = createSlice({
         },
         deleteTable: (state, action) => {
             let id = action.payload
-            let newTables = [...tables].filter((tab) => tab.id.toString() !== id.toString())
+            let newTables = [...state.tables].filter((tab) => tab.id.toString() !== id.toString())
             state.tables = newTables
         },
         updateTable: (state, action) => {
@@ -89,8 +89,8 @@ export const TableSlice = createSlice({
             state.formAddTableVisible = false
             state.tableToEdit = null
         },
-        setFormDropTableVisible: (state) => {
-            state.formDropTableVisible = false
+        setFormDropTableVisible: (state, action) => {
+            state.formDropTableVisible = action.payload
         },
         displayFormUpdateTable: (state, action) => {
             state.tableToEdit = action.payload
