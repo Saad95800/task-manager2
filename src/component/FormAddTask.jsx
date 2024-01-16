@@ -1,15 +1,20 @@
 import React,{useState, useEffect} from 'react'
 import { displayMessage } from '../redux/message/MessageSlice'
 import { store } from '../redux/store'
+import { addTask, hideFormUpdateTask, updateTask } from '../redux/task/TaskSlice'
+import { useSelector } from 'react-redux'
 
-export default function FormAddTask({tables, addTask, hideFormUpdateTask, context, updateTask, taskToEdit}) {
-    console.log(context)
+export default function FormAddTask({tables, context}) {
+
+    const taskToEdit = useSelector((state) => state.task.taskToEdit)
+
     const [tableId, setTableId] = useState(0)
     const [taskContent, setTaskContent] = useState(context === 'edit' ? taskToEdit.content : '')
 
+    
   return (
     <div className="popup-overlay" onClick={()=>{
-        hideFormUpdateTask()
+        store.dispatch(hideFormUpdateTask()) 
     }}>
         <div 
         onClick={(e)=>{
@@ -24,10 +29,10 @@ export default function FormAddTask({tables, addTask, hideFormUpdateTask, contex
                     }
 
                     if(context === 'add'){
-                        addTask(taskContent, tableId)
+                        store.dispatch(addTask({taskContent, tableId}))
                         store.dispatch( displayMessage({texte: 'Tâche ajouté avec succès !', typeMessage: 'success'}) )
                     }else{
-                        updateTask(taskContent, taskToEdit.id)
+                        store.dispatch( updateTask({taskContent, id_task: taskToEdit.id}) )
                         store.dispatch( displayMessage({texte: 'Tâche modifiée avec succès !', typeMessage: 'success'}) )
                     }
                     

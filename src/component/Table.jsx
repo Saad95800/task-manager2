@@ -2,8 +2,12 @@ import React from 'react'
 import Task from './Task'
 import { displayFormUpdateTable, moveTable } from '../redux/table/TableSlice'
 import { store } from '../redux/store'
+import { moveTask } from '../redux/task/TaskSlice'
+import { useSelector } from 'react-redux'
 
-export default function Table({table, tasks, deletetask, moveTask, displayFormUpdateTask}) {
+export default function Table({table, deletetask}) {
+
+  const tasks = useSelector((state) => state.task.tasks)
 
   return (
     <div className="table p-2 m-3 rounded"
@@ -16,10 +20,10 @@ export default function Table({table, tasks, deletetask, moveTask, displayFormUp
         let id_task = e.dataTransfer.getData('id_task')
         let id_table_drag = e.dataTransfer.getData('id_table_drag')
         const order_table_drag = e.dataTransfer.getData('order_table_drag')
-
+        console.log(id_task)
         if(id_task){
           // J'ai droppé une tâche
-          moveTask(id_task, table.id)
+          store.dispatch( moveTask({id_task, id_table_drop: table.id}) )
         }else if(id_table_drag){
           // J'ai droppé un tableau
           store.dispatch(moveTable({id_table_drag: id_table_drag, order_table_drag: order_table_drag, id_table_drop : table.id, order_table_drop: table.order}))
@@ -37,7 +41,7 @@ export default function Table({table, tasks, deletetask, moveTask, displayFormUp
         <p>{table.title}</p>
         {tasks.map((task)=>{
             if(table.id.toString() === task.tableId.toString()){
-                return <Task key={task.id} task={task} deletetask={deletetask} displayFormUpdateTask={displayFormUpdateTask}/>
+                return <Task key={task.id} task={task} />
             }
         })}
     </div>
