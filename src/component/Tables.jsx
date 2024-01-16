@@ -7,7 +7,7 @@ import FormAddTask from './FormAddTask'
 import {Link} from 'react-router-dom'
 import {produce} from 'immer'
 
-export default function Tables({displayMessage}) {
+export default function Tables() {
 
     const [tables, setTables] = useState([])
     const [tasks, setTasks] = useState([])
@@ -205,13 +205,13 @@ export default function Tables({displayMessage}) {
         <button className="btn btn-success" onClick={()=>{ displayFormAddTask() }}>Ajouter un tableau</button>
         <button className="btn btn-danger" onClick={()=>{ setFormDropTableVisible(true) }}>Supprimer un tableau</button>
         <button className="btn btn-primary" onClick={()=>{ setFormAddTaskVisible(true) }}>Ajouter une tâche</button>
-            {formAddTableVisible && <FormAddTable displayMessage={displayMessage} updateTable={updateTable} tableToEdit={tableToEdit} addTable={addTable} context={tableToEdit === null ? 'add' : 'edit'} hideFormUpdateTable={hideFormUpdateTable} />}
-            {formDropTableVisible && <FormSupTable displayMessage={displayMessage} tables={tables} deleteTable={deleteTable} setFormDropTableVisible={setFormDropTableVisible} />}
-            {formAddTaskVisible && <FormAddTask displayMessage={displayMessage} taskToEdit={taskToEdit} tables={tables} addTask={addTask} hideFormUpdateTask={hideFormUpdateTask} context={taskToEdit === null ? 'add' : 'edit'} setTaskToEdit={setTaskToEdit} updateTask={updateTask} />}
+            {formAddTableVisible && <FormAddTable updateTable={updateTable} tableToEdit={tableToEdit} addTable={addTable} context={tableToEdit === null ? 'add' : 'edit'} hideFormUpdateTable={hideFormUpdateTable} />}
+            {formDropTableVisible && <FormSupTable tables={tables} deleteTable={deleteTable} setFormDropTableVisible={setFormDropTableVisible} />}
+            {formAddTaskVisible && <FormAddTask taskToEdit={taskToEdit} tables={tables} addTask={addTask} hideFormUpdateTask={hideFormUpdateTask} context={taskToEdit === null ? 'add' : 'edit'} setTaskToEdit={setTaskToEdit} updateTask={updateTask} />}
         </div>
         <div className="d-flex justify-content-start align-items-start">
             {tables.sort((a, b)=> ( a.order > b.order ? 1 : -1 )).map((table, index)=>{
-                return <Table displayMessage={displayMessage} key={index} moveTable={moveTable} displayFormUpdateTable={displayFormUpdateTable} table={table} tasks={tasks} deletetask={deletetask} moveTask={moveTask} displayFormUpdateTask={displayFormUpdateTask}/>
+                return <Table key={index} moveTable={moveTable} displayFormUpdateTable={displayFormUpdateTable} table={table} tasks={tasks} deletetask={deletetask} moveTask={moveTask} displayFormUpdateTask={displayFormUpdateTask}/>
             })}
         </div>
     </div>

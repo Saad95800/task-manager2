@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
+import { displayMessage } from '../redux/message/MessageSlice'
+import { store } from '../redux/store'
 
-export default function FormAddTable({displayMessage, addTable, context, hideFormUpdateTable, tableToEdit, updateTable}) {
+export default function FormAddTable({addTable, context, hideFormUpdateTable, tableToEdit, updateTable}) {
 
     const [title, setTitle] = useState(context === 'edit' ? tableToEdit.title : '')
 
@@ -20,10 +22,10 @@ export default function FormAddTable({displayMessage, addTable, context, hideFor
                 }
                 if(context === 'add'){
                     addTable(title)
-                    displayMessage('Tableau ajouté avec succès !', 'success')
+                    store.dispatch( displayMessage({texte: 'Tableau ajouté avec succès !', typeMessage: 'success'}) )
                 }else{
                     updateTable(title, tableToEdit.id)
-                    displayMessage('Tableau modifié avec succès !', 'success')
+                    store.dispatch( displayMessage({texte: 'Tableau modifié avec succès !', typeMessage: 'success'}) )
                 }
                 setTitle('')
             }}

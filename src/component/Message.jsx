@@ -1,6 +1,11 @@
 import React from 'react'
+import { hideMessage } from '../redux/message/MessageSlice'
+import { useSelector } from 'react-redux'
+import { store } from '../redux/store'
+export default function Message(){
 
-export default function Message({texte, typeMessage, hideMessage}){
+    const texte = useSelector((state) => state.message.texte)
+    const typeMessage = useSelector((state) => state.message.typeMessage)
 
     return (
         <div className={`d-flex justify-content-between ${typeMessage !== '' ? (typeMessage==='success' ? 'bg-success' : 'bg-danger') : ''}`}
@@ -8,7 +13,7 @@ export default function Message({texte, typeMessage, hideMessage}){
         >
             <p style={{color: 'white', fontWeight: 'bold'}}>{texte}</p>
             <button type="button" className="btn-close" aria-label="Close" onClick={()=>{ 
-                hideMessage()
+                store.dispatch( hideMessage() )
              }}></button>
         </div>
     )

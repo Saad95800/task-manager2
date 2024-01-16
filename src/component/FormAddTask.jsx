@@ -1,6 +1,8 @@
 import React,{useState, useEffect} from 'react'
+import { displayMessage } from '../redux/message/MessageSlice'
+import { store } from '../redux/store'
 
-export default function FormAddTask({displayMessage, tables, addTask, hideFormUpdateTask, context, updateTask, taskToEdit}) {
+export default function FormAddTask({tables, addTask, hideFormUpdateTask, context, updateTask, taskToEdit}) {
     console.log(context)
     const [tableId, setTableId] = useState(0)
     const [taskContent, setTaskContent] = useState(context === 'edit' ? taskToEdit.content : '')
@@ -23,10 +25,10 @@ export default function FormAddTask({displayMessage, tables, addTask, hideFormUp
 
                     if(context === 'add'){
                         addTask(taskContent, tableId)
-                        displayMessage('Tache ajoutée avec succès !', 'success')
+                        store.dispatch( displayMessage({texte: 'Tâche ajouté avec succès !', typeMessage: 'success'}) )
                     }else{
                         updateTask(taskContent, taskToEdit.id)
-                        displayMessage('Tache modifiée avec succès !', 'success')
+                        store.dispatch( displayMessage({texte: 'Tâche modifiée avec succès !', typeMessage: 'success'}) )
                     }
                     
                     setTaskContent('')

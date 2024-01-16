@@ -6,31 +6,18 @@ import HomePage from './component/HomePage'
 import Login from './component/Login'
 import { useState } from 'react'
 import Message from './component/Message'
+import { useSelector } from 'react-redux'
 
 function App() {
 
-  const [viewMessage, setViewMessage] = useState(false)
-  const [texte, setTexte] = useState('')
-  const [typeMessage, setTypeMessage] = useState('')
-
-  const displayMessage = (texte, typeMessage) => {
-    setViewMessage(true)
-    setTexte(texte)
-    setTypeMessage(typeMessage)
-  }
-
-  const hideMessage = () => {
-    setViewMessage(false)
-    setTexte('')
-    setTypeMessage('')
-  }
+  const viewMessage = useSelector((state) => state.message.viewMessage)
 
   return (
     <div className="gradient-background container-app">
-      {viewMessage && <Message texte={texte} typeMessage={typeMessage} hideMessage={hideMessage} />}
+      {viewMessage && <Message />}
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/tables" element={<Tables displayMessage={displayMessage} />} />
+        <Route path="/tables" element={<Tables />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </div>

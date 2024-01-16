@@ -1,7 +1,9 @@
 import React, {useState} from 'react'
 import { styleModal } from '../utils/styles'
+import { displayMessage } from '../redux/message/MessageSlice'
+import { store } from '../redux/store'
 
-export default function FormSupTable({displayMessage, deleteTable, tables, setFormDropTableVisible}) {
+export default function FormSupTable({deleteTable, tables, setFormDropTableVisible}) {
 
     const [idTableSelected, setIdTableSelected] = useState('0')
 
@@ -17,7 +19,7 @@ export default function FormSupTable({displayMessage, deleteTable, tables, setFo
                 alert('Veuillez sélectionner un tableau à supprimer.'); return
             }
             deleteTable(idTableSelected)
-            displayMessage('Tableau supprimé avec succès !', 'success')
+            store.dispatch( displayMessage({texte: 'Tâche supprimée avec succès !', typeMessage: 'success'}) )
             setIdTableSelected('0')
         }}>
             <div className="form-group">
