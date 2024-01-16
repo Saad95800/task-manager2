@@ -1,14 +1,18 @@
 import React, {useState} from 'react'
 import { displayMessage } from '../redux/message/MessageSlice'
 import { store } from '../redux/store'
+import { addTable, hideFormUpdateTable, updateTable } from '../redux/table/TableSlice'
+import { useSelector } from 'react-redux'
 
-export default function FormAddTable({addTable, context, hideFormUpdateTable, tableToEdit, updateTable}) {
+export default function FormAddTable({context}) {
 
-    const [title, setTitle] = useState(context === 'edit' ? tableToEdit.title : '')
+    const tableToEdit = useSelector((state) => state.table.tableToEdit)
+
+    const [title, setTitle] = useState(context === 'edit' && tableToEdit !== null ? tableToEdit.title : '')
 
   return (
     <div className="popup-overlay" onClick={()=>{
-        hideFormUpdateTable()
+        store.dispatch(hideFormUpdateTable())
     }}>
         <div 
         onClick={(e)=>{
@@ -21,10 +25,10 @@ export default function FormAddTable({addTable, context, hideFormUpdateTable, ta
                     alert("Veuillez saisir un titre au tableau."); return
                 }
                 if(context === 'add'){
-                    addTable(title)
+                    store.dispatch(addTable(title))
                     store.dispatch( displayMessage({texte: 'Tableau ajouté avec succès !', typeMessage: 'success'}) )
                 }else{
-                    updateTable(title, tableToEdit.id)
+                    store.dispatch(updateTable({tableTitle: title, id_table: tableToEdit.id}))
                     store.dispatch( displayMessage({texte: 'Tableau modifié avec succès !', typeMessage: 'success'}) )
                 }
                 setTitle('')

@@ -2,8 +2,9 @@ import React, {useState} from 'react'
 import { styleModal } from '../utils/styles'
 import { displayMessage } from '../redux/message/MessageSlice'
 import { store } from '../redux/store'
+import { deleteTable, setFormDropTableVisible } from '../redux/table/TableSlice'
 
-export default function FormSupTable({deleteTable, tables, setFormDropTableVisible}) {
+export default function FormSupTable({tables}) {
 
     const [idTableSelected, setIdTableSelected] = useState('0')
 
@@ -11,14 +12,14 @@ export default function FormSupTable({deleteTable, tables, setFormDropTableVisib
     <div className="popup-overlay">
         <div className="m-3 border p-3 rounded-3" style={{backgroundColor: '#ffffffd6'}}>
         <button className="btn btn-danger" onClick={()=>{
-                setFormDropTableVisible(false)
+                store.dispatch( setFormDropTableVisible(false) )
         }}>Fermer</button>
         <form onSubmit={(e)=>{
             e.preventDefault()
             if(idTableSelected.toString() === '0'){
                 alert('Veuillez sélectionner un tableau à supprimer.'); return
             }
-            deleteTable(idTableSelected)
+            store.dispatch(deleteTable(idTableSelected))
             store.dispatch( displayMessage({texte: 'Tâche supprimée avec succès !', typeMessage: 'success'}) )
             setIdTableSelected('0')
         }}>

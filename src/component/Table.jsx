@@ -1,7 +1,9 @@
 import React from 'react'
 import Task from './Task'
+import { displayFormUpdateTable, moveTable } from '../redux/table/TableSlice'
+import { store } from '../redux/store'
 
-export default function Table({table, tasks, deletetask, moveTask , displayFormUpdateTable, displayFormUpdateTask, moveTable}) {
+export default function Table({table, tasks, deletetask, moveTask, displayFormUpdateTask}) {
 
   return (
     <div className="table p-2 m-3 rounded"
@@ -20,16 +22,16 @@ export default function Table({table, tasks, deletetask, moveTask , displayFormU
           moveTask(id_task, table.id)
         }else if(id_table_drag){
           // J'ai droppé un tableau
-          moveTable(id_table_drag, order_table_drag, table.id, table.order)
+          store.dispatch(moveTable({id_table_drag: id_table_drag, order_table_drag: order_table_drag, id_table_drop : table.id, order_table_drop: table.order}))
         }
-
         
       }}
       onDragOver={(e)=>{
         e.preventDefault()
       }}
       onClick={()=>{
-        displayFormUpdateTable(table)
+        console.log(table)
+        store.dispatch( displayFormUpdateTable(table) )
       }}
     >
         <p>{table.title}</p>
