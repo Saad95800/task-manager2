@@ -59,10 +59,12 @@ export const TableSlice = createSlice({
         },
     
         addTable: (state, action) => {
-            let title = action.payload
+            let title = action.payload.title
+            let spaceId = action.payload.spaceId
             const newTable = {
                 id: uuidv4(),
-                title: title
+                title: title,
+                spaceId: spaceId
             }
     
             state.tables = [...state.tables, newTable]

@@ -3,8 +3,11 @@ import { displayMessage } from '../redux/message/MessageSlice'
 import { store } from '../redux/store'
 import { addTable, hideFormUpdateTable, updateTable } from '../redux/table/TableSlice'
 import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 
 export default function FormAddTable({context}) {
+
+    const { id } = useParams()
 
     const tableToEdit = useSelector((state) => state.table.tableToEdit)
 
@@ -25,7 +28,7 @@ export default function FormAddTable({context}) {
                     alert("Veuillez saisir un titre au tableau."); return
                 }
                 if(context === 'add'){
-                    store.dispatch(addTable(title))
+                    store.dispatch(addTable({title, spaceId: id}))
                     store.dispatch( displayMessage({texte: 'Tableau ajouté avec succès !', typeMessage: 'success'}) )
                 }else{
                     store.dispatch(updateTable({tableTitle: title, id_table: tableToEdit.id}))

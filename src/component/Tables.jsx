@@ -3,7 +3,7 @@ import Table from './Table'
 import FormAddTable from './FormAddTable'
 import FormSupTable from './FormSupTable'
 import FormAddTask from './FormAddTask'
-import {Link, useNavigate} from 'react-router-dom'
+import {Link, useNavigate, useParams} from 'react-router-dom'
 import {produce} from 'immer'
 import { displayFormAddTable, setFormDropTableVisible, setTables } from '../redux/table/TableSlice'
 import { useSelector } from 'react-redux'
@@ -12,7 +12,7 @@ import { setFormAddTaskVisible, setTasks } from '../redux/task/TaskSlice'
 
 export default function Tables() {
 
-
+    const {id} = useParams()
 
     const navigate = useNavigate()
 
@@ -38,22 +38,26 @@ export default function Tables() {
             {
                 id: '1',
                 title: 'Projet ressource',
-                order: 1
+                order: 1,
+                spaceId: '1'
             },
             {
                 id: '2',
                 title: 'Sujet de la prochaine réunion',
-                order: 2
+                order: 2,
+                spaceId: '1'
             },
             {
                 id: '3',
                 title: 'A faire',
-                order: 3
+                order: 3,
+                spaceId: '2'
             },
             {
                 id: '4',
                 title: 'En cours',
-                order: 4
+                order: 4,
+                spaceId: '2'
             }
         ]))
 
@@ -77,7 +81,13 @@ export default function Tables() {
         setTaskToEdit(null)
     }
 */
-    
+
+    const filterTables = (id_space, tables) => {
+        return [...tables].filter(table => table.spaceId.toString() === id_space.toString())
+    }
+
+    let tablesFiltered = filterTables(id, tables)
+
   return (
     <div className="container">
         <Link to="/" className="btn btn-primary">page d'accueil</Link>
@@ -90,7 +100,7 @@ export default function Tables() {
             {formAddTaskVisible && <FormAddTask tables={tables} context={taskToEdit === null ? 'add' : 'edit'} />}
         </div>
         <div className="d-flex justify-content-start align-items-start">
-            {[...tables].sort((a, b)=> ( a.order > b.order ? 1 : -1 )).map((table, index)=>{
+            {tablesFiltered.sort((a, b)=> ( a.order > b.order ? 1 : -1 )).map((table, index)=>{
                 return <Table key={index} table={table} />
             })}
         </div>

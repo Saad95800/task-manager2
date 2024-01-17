@@ -18,7 +18,7 @@ function App() {
       {viewMessage && <Message />}
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/tables" element={<Tables />} />
+        <Route path="/space/:id/tables" element={<Tables />} />
         <Route path="/login" element={<Login />} />
         <Route path="/spaces" element={<SpaceList />} />
       </Routes>
