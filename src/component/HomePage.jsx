@@ -20,6 +20,7 @@ export default function HomePage() {
         <h1>HomePage</h1>
         <Link to="/login" className='btn btn-danger'>Déconnexion</Link>     
         <Link to="/tables" className='btn btn-success'>Tableaux</Link>     
+        <Link to="/spaces" className='btn btn-success'>Liste des espaces</Link>     
     </>
   )
 }

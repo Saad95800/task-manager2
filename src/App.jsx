@@ -7,6 +7,7 @@ import Login from './component/Login'
 import { useState } from 'react'
 import Message from './component/Message'
 import { useSelector } from 'react-redux'
+import SpaceList from './component/SpaceList'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/tables" element={<Tables />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/spaces" element={<SpaceList />} />
       </Routes>
     </div>
   )
