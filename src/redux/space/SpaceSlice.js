@@ -3,33 +3,34 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
     spaces: [
         {
-            id: 1,
+            id: '1',
             title: 'Espace cloud campus',
             color: '#fff'
         },
         {
-            id: 2,
+            id: '2',
             title: 'Espace jod freelance',
             color: '#fff'
         },
         {
-            id: 3,
+            id: '3',
             title: 'Espace jod freelance',
             color: '#fff'
         },
         {
-            id: 4,
+            id: '4',
             title: 'Espace jod freelance',
             color: '#fff'
         },
         {
-            id: 5,
+            id: '5',
             title: 'Espace jod freelance',
             color: '#fff'
         }
     ],
     viewFormEditSpace: false,
-    spaceToEdit: null
+    spaceToEdit: null,
+    spacesToDelete: []
 }
 
 export const SpaceSlice = createSlice({
@@ -55,14 +56,30 @@ export const SpaceSlice = createSlice({
             state.spaces[index].color = color
             state.viewFormEditSpace = false
             state.spaceToEdit = null
-        }
+        },
+        setSpaceToDelete: (state, action) => {
+            state.spacesToDelete = action.payload
+        },
+        addSpaceToDelete: (state, action) => {
+            state.spacesToDelete.push(action.payload)
+        },
+        removeSpaceToDelete: (state, action) => {
+            state.spacesToDelete = state.spacesToDelete.filter(s => s !== action.payload)
+        },
+        deleteSpaces: (state, action) => {
+            state.spaces = state.spaces.filter(space => !state.spacesToDelete.includes(space.id))
+            state.spacesToDelete = []
+        },
     }
 })
 
 export const {
     setViewFormEditSpace,
     setSpaceToEdit,
-    updateSpace
+    updateSpace,
+    addSpaceToDelete,
+    removeSpaceToDelete,
+    deleteSpaces
 } = SpaceSlice.actions
 
 export default SpaceSlice.reducer

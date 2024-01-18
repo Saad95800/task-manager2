@@ -2,7 +2,18 @@ import { createSlice } from '@reduxjs/toolkit'
 import { v4 as uuidv4 } from 'uuid'
 
 const initialState = {
-    tasks: [],
+    tasks: [
+        {
+            id: '1',
+            content: 'Faire le header',
+            tableId: '1'
+        },
+        {
+            id: '2',
+            content: 'Faire le footer',
+            tableId: '2'
+        }
+    ],
     formAddTaskVisible: false,
     taskToEdit: null
 }
@@ -61,7 +72,10 @@ export const TaskSlice = createSlice({
         },
         setFormAddTaskVisible: (state, action) => {
             state.formAddTaskVisible = action.payload
-        }
+        },
+        deleteTasksByTablesId: (state, action) => {
+            state.tasks = state.tasks.filter(task => !action.payload.includes(task.tableId))
+        },
 
     }
 })
@@ -74,6 +88,7 @@ export const {
     displayFormUpdateTask,
     hideFormUpdateTask,
     updateTask,
+    deleteTasksByTablesId,
     setFormAddTaskVisible
 } = TaskSlice.actions
 

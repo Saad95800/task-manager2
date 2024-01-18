@@ -2,7 +2,32 @@ import { createSlice } from '@reduxjs/toolkit'
 import { v4 as uuidv4 } from 'uuid'
 
 const initialState = {
-    tables: [],
+    tables: [
+        {
+            id: '1',
+            title: 'Projet ressource',
+            order: 1,
+            spaceId: '1'
+        },
+        {
+            id: '2',
+            title: 'Sujet de la prochaine réunion',
+            order: 2,
+            spaceId: '1'
+        },
+        {
+            id: '3',
+            title: 'A faire',
+            order: 3,
+            spaceId: '2'
+        },
+        {
+            id: '4',
+            title: 'En cours',
+            order: 4,
+            spaceId: '2'
+        }
+    ],
     formAddTableVisible: false,
     formDropTableVisible: false,
     tableToEdit: null
@@ -100,7 +125,10 @@ export const TableSlice = createSlice({
         },
         displayFormAddTable: (state, action) => {
             state.formAddTableVisible = true
-        }
+        },
+        deleteTablesBySpacesId: (state, action) => {
+            state.tables = state.tables.filter(table => !action.payload.includes(table.spaceId))
+        },
     }
 })
 
@@ -113,7 +141,8 @@ export const {
     hideFormUpdateTable,
     setFormDropTableVisible,
     displayFormUpdateTable,
-    displayFormAddTable
+    displayFormAddTable,
+    deleteTablesBySpacesId
 } = TableSlice.actions
 
 export default TableSlice.reducer

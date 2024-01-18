@@ -33,55 +33,6 @@ export default function Tables() {
         }
     }, [])
 
-    useEffect(()=>{
-        store.dispatch( setTables([
-            {
-                id: '1',
-                title: 'Projet ressource',
-                order: 1,
-                spaceId: '1'
-            },
-            {
-                id: '2',
-                title: 'Sujet de la prochaine réunion',
-                order: 2,
-                spaceId: '1'
-            },
-            {
-                id: '3',
-                title: 'A faire',
-                order: 3,
-                spaceId: '2'
-            },
-            {
-                id: '4',
-                title: 'En cours',
-                order: 4,
-                spaceId: '2'
-            }
-        ]))
-
-        store.dispatch( setTasks([
-            {
-                id: '1',
-                content: 'Faire le header',
-                tableId: '1'
-            },
-            {
-                id: '2',
-                content: 'Faire le footer',
-                tableId: '2'
-            }
-        ]) )
-    }, [])
-
-/*
-    const displayFormAddTask = () => {
-        setFormAddTableVisible(true); 
-        setTaskToEdit(null)
-    }
-*/
-
     const filterTables = (id_space, tables) => {
         return [...tables].filter(table => table.spaceId.toString() === id_space.toString())
     }
