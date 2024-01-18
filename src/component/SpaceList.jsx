@@ -3,14 +3,13 @@ import {useSelector} from 'react-redux'
 import SpaceItem from './SpaceItem'
 import FormEditSpace from './FormEditSpace'
 import { deleteTasksByTablesId } from '../redux/task/TaskSlice'
-import { deleteSpaces } from '../redux/space/SpaceSlice'
+import { deleteSpaces, setContextSpace, setViewFormEditSpace } from '../redux/space/SpaceSlice'
 import { deleteTablesBySpacesId } from '../redux/table/TableSlice'
 import { store } from '../redux/store'
 
 export default function SpaceList(){
 
     const viewFormEditSpace = useSelector(state => state.space.viewFormEditSpace)
-    console.log(viewFormEditSpace)
     const spaces = useSelector((state) => state.space.spaces)
     const tables = useSelector((state) => state.table.tables)
     const spacesToDelete = useSelector((state) => state.space.spacesToDelete)
@@ -34,6 +33,10 @@ export default function SpaceList(){
                 store.dispatch(deleteTablesBySpacesId(spacesToDelete))
                 store.dispatch(deleteSpaces())
             }}>Supprimer en masse</button>
+            <button className="btn btn-success" onClick={()=>{ 
+                store.dispatch(setViewFormEditSpace(true))
+                store.dispatch(setContextSpace('add'))
+             }}>Ajouter</button>
             <div className="row">
                 {spaces.map((space, i) => {
                     return <SpaceItem space={space} key={i} />
