@@ -6,6 +6,8 @@ import { deleteTasksByTablesId } from '../redux/task/TaskSlice'
 import { deleteSpaces, setContextSpace, setViewFormEditSpace } from '../redux/space/SpaceSlice'
 import { deleteTablesBySpacesId } from '../redux/table/TableSlice'
 import { store } from '../redux/store'
+import Grid from '@mui/material/Unstable_Grid2'
+import Box from '@mui/material/Box';
 
 export default function SpaceList(){
 
@@ -37,12 +39,17 @@ export default function SpaceList(){
                 store.dispatch(setViewFormEditSpace(true))
                 store.dispatch(setContextSpace('add'))
              }}>Ajouter</button>
-            <div className="row">
-                {spaces.map((space, i) => {
-                    return <SpaceItem space={space} key={i} />
-                })}
+            <Box>
+                <Grid container spacing={2}>
+                    {spaces.map((space, i) => {
+                        return <Grid xs={12} sm={6} md={4} lg={3} key={i}>
+                                    <SpaceItem space={space} />
+                               </Grid>
+                    })}
+                </Grid>
+
                 {viewFormEditSpace && <FormEditSpace />}
-            </div>
+            </Box>
         </div>
     )
 
