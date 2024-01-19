@@ -15,7 +15,7 @@ function App() {
 
   return (
     <div className="gradient-background container-app">
-      {viewMessage && <Message />}
+      <Message />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/space/:id/tables" element={<Tables />} />
