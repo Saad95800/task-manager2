@@ -46,9 +46,9 @@ export default function Tables() {
         <button className="btn btn-success" onClick={()=>{ store.dispatch(displayFormAddTable()) }}>Ajouter un tableau</button>
         <button className="btn btn-danger" onClick={()=>{ store.dispatch(setFormDropTableVisible(true)) }}>Supprimer un tableau</button>
         <button className="btn btn-primary" onClick={()=>{ store.dispatch(setFormAddTaskVisible(true)) }}>Ajouter une tâche</button>
-            {formAddTableVisible && <FormAddTable context={tableToEdit === null ? 'add' : 'edit'} />}
-            {formDropTableVisible && <FormSupTable tables={tables} />}
-            {formAddTaskVisible && <FormAddTask tables={tables} context={taskToEdit === null ? 'add' : 'edit'} />}
+            <FormAddTable context={tableToEdit === null ? 'add' : 'edit'} open={formAddTableVisible} />
+            <FormSupTable tables={tables} open={formDropTableVisible} />
+            <FormAddTask tables={tables} context={taskToEdit === null ? 'add' : 'edit'} open={formAddTaskVisible} />
         </div>
         <div className="d-flex justify-content-start align-items-start">
             {tablesFiltered.sort((a, b)=> ( a.order > b.order ? 1 : -1 )).map((table, index)=>{

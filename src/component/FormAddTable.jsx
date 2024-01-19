@@ -4,8 +4,11 @@ import { store } from '../redux/store'
 import { addTable, hideFormUpdateTable, updateTable } from '../redux/table/TableSlice'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import {style} from './styleModal'
 
-export default function FormAddTable({context}) {
+export default function FormAddTable({context, open}) {
 
     const { id } = useParams()
 
@@ -14,14 +17,13 @@ export default function FormAddTable({context}) {
     const [title, setTitle] = useState(context === 'edit' && tableToEdit !== null ? tableToEdit.title : '')
 
   return (
-    <div className="popup-overlay" onClick={()=>{
-        store.dispatch(hideFormUpdateTable())
-    }}>
-        <div 
-        onClick={(e)=>{
-                e.stopPropagation()
-            }}
-        className="m-3 border p-3 rounded-3 bg-forms" style={{margin: 'auto', backgroundColor: '#ffffffd6'}}>
+    <Modal
+        open={open}
+        onClose={()=>{ store.dispatch(hideFormUpdateTable()) }}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
             <form onSubmit={(e)=>{
                 e.preventDefault()
                 if(title.trim().length === 0){
@@ -44,8 +46,8 @@ export default function FormAddTable({context}) {
                 <div className="form-group">
                     <input type="submit" className="btn btn-primary" value={context === 'edit' ? 'Modifier' : "Ajouter"}/>
                 </div>
-            </form>   
-        </div>
-    </div>
+            </form> 
+        </Box>
+      </Modal>
   )
 }
