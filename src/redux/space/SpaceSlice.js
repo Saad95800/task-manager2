@@ -52,11 +52,18 @@ export const SpaceSlice = createSlice({
         addSpace: (state, action) => {
             let title = action.payload.title
             let color = action.payload.color
-            state.spaces.push({
+
+            let newSpace = {
                 id: uuidv4(),
                 title,
                 color
-            })
+            }
+
+            let spacesStorage = JSON.parse(localStorage.getItem('spaces'))
+            spacesStorage.push(newSpace)
+            localStorage.setItem('spaces', JSON.stringify(spacesStorage))
+
+            state.spaces.push(newSpace)
             state.viewFormEditSpace = false
         },
         setSpaces: (state, action) => {

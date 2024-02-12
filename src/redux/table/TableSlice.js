@@ -92,6 +92,10 @@ export const TableSlice = createSlice({
                 spaceId: spaceId
             }
     
+            let tablesStorage = JSON.parse(localStorage.getItem('tables'))
+            tablesStorage.push(newTable)
+            localStorage.setItem('tables', JSON.stringify(tablesStorage))
+
             state.tables = [...state.tables, newTable]
             state.formAddTableVisible = false
             state.tableToEdit = null
@@ -99,6 +103,7 @@ export const TableSlice = createSlice({
         deleteTable: (state, action) => {
             let id = action.payload
             let newTables = [...state.tables].filter((tab) => tab.id.toString() !== id.toString())
+            localStorage.setItem('tables', JSON.stringify(newTables))
             state.tables = newTables
         },
         updateTable: (state, action) => {
