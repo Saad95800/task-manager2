@@ -31,6 +31,14 @@ export default function Tables() {
         if(!connected){
           return navigate('/login')
         }
+
+        let tablesStorage = localStorage.getItem('tables')
+
+        if(tablesStorage !== null && tablesStorage !== ''){
+            let data = JSON.parse(tablesStorage)
+            store.dispatch(setTables(data))
+        }
+
     }, [])
 
     const filterTables = (id_space, tables) => {

@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react'
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import SpaceItem from './SpaceItem'
 import FormEditSpace from './FormEditSpace'
 import { deleteTasksByTablesId } from '../redux/task/TaskSlice'
-import { deleteSpaces, setContextSpace, setViewFormEditSpace } from '../redux/space/SpaceSlice'
+import { deleteSpaces, setContextSpace, setSpaces, setViewFormEditSpace } from '../redux/space/SpaceSlice'
 import { deleteTablesBySpacesId } from '../redux/table/TableSlice'
 import { store } from '../redux/store'
 import Grid from '@mui/material/Unstable_Grid2'
@@ -13,7 +13,8 @@ import {useNavigate} from 'react-router-dom'
 export default function SpaceList(){
 
     const navigate = useNavigate()
-
+    const dispatch = useDispatch()
+    
     const viewFormEditSpace = useSelector(state => state.space.viewFormEditSpace)
     const spaces = useSelector((state) => state.space.spaces)
     const tables = useSelector((state) => state.table.tables)
@@ -26,6 +27,16 @@ export default function SpaceList(){
         if(!connected){
           return navigate('/login')
         }
+
+        let spacesStorage = localStorage.getItem('spaces')
+
+        if(spacesStorage !== null && spacesStorage !== ''){
+
+            let data = JSON.parse(spacesStorage)
+            dispatch(setSpaces(data))
+
+        }
+
     }, [])
 
     const getTablesToDeleteBySpacesToDelete = (spacesToDelete) => {

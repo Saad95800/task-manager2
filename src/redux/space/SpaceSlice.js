@@ -2,33 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { v4 as uuidv4 } from 'uuid'
 
 const initialState = {
-    spaces: [
-        {
-            id: '1',
-            title: 'Espace cloud campus',
-            color: '#fff'
-        },
-        {
-            id: '2',
-            title: 'Espace jod freelance',
-            color: '#fff'
-        },
-        {
-            id: '3',
-            title: 'Espace jod freelance',
-            color: '#fff'
-        },
-        {
-            id: '4',
-            title: 'Espace jod freelance',
-            color: '#fff'
-        },
-        {
-            id: '5',
-            title: 'Espace jod freelance',
-            color: '#fff'
-        }
-    ],
+    spaces: [],
     viewFormEditSpace: false,
     spaceToEdit: null,
     spacesToDelete: [],
@@ -85,10 +59,14 @@ export const SpaceSlice = createSlice({
             })
             state.viewFormEditSpace = false
         },
+        setSpaces: (state, action) => {
+            state.spaces = action.payload
+        },
     }
 })
 
 export const {
+    setSpaces,
     setViewFormEditSpace,
     setSpaceToEdit,
     updateSpace,
