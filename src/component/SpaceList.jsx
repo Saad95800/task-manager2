@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {useSelector} from 'react-redux'
 import SpaceItem from './SpaceItem'
 import FormEditSpace from './FormEditSpace'
@@ -8,13 +8,25 @@ import { deleteTablesBySpacesId } from '../redux/table/TableSlice'
 import { store } from '../redux/store'
 import Grid from '@mui/material/Unstable_Grid2'
 import Box from '@mui/material/Box';
+import {useNavigate} from 'react-router-dom'
 
 export default function SpaceList(){
+
+    const navigate = useNavigate()
 
     const viewFormEditSpace = useSelector(state => state.space.viewFormEditSpace)
     const spaces = useSelector((state) => state.space.spaces)
     const tables = useSelector((state) => state.table.tables)
     const spacesToDelete = useSelector((state) => state.space.spacesToDelete)
+
+
+    useEffect(()=>{
+        let connected = sessionStorage.getItem('connected') === 'true'
+    
+        if(!connected){
+          return navigate('/login')
+        }
+    }, [])
 
     const getTablesToDeleteBySpacesToDelete = (spacesToDelete) => {
         let tablesToDelete = []

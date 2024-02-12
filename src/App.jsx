@@ -72,13 +72,15 @@ function App() {
                 </Link>
               ))}
             <ListItem disablePadding onClick={()=>{
-              localStorage.setItem('connected', null)
+              if(sessionStorage.getItem('connected') === "true"){
+                sessionStorage.setItem('connected', false)
+              }
               return navigate('/login')
             }}>
               <ListItemButton>
                 <ListItemIcon>
                 </ListItemIcon>
-                <ListItemText primary={'Déconexion'} />
+                <ListItemText primary={sessionStorage.getItem('connected') === "true" ? 'Déconnexion' : 'Connexion'} />
               </ListItemButton>
             </ListItem> 
           </List>

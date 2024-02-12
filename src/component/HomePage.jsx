@@ -16,7 +16,7 @@ export default function HomePage() {
   const tasks = useSelector((state)=> state.task.tasks)
 
   useEffect(()=>{
-    let connected = localStorage.getItem('connected')
+    let connected = sessionStorage.getItem('connected') === 'true'
 
     if(!connected){
       return navigate('/login')

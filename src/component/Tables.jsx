@@ -26,7 +26,7 @@ export default function Tables() {
 
     
     useEffect(()=>{
-        let connected = localStorage.getItem('connected')
+        let connected = sessionStorage.getItem('connected') === 'true'
     
         if(!connected){
           return navigate('/login')

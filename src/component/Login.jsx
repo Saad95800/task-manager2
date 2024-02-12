@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 
 export default function Login() {
@@ -7,6 +7,14 @@ export default function Login() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  useEffect(() => {
+
+    if(sessionStorage.getItem('connected') === 'true') {
+      return navigate('/')
+    }
+
+  }, [])
 
   return (
     <div className="container">
@@ -18,7 +26,7 @@ export default function Login() {
         }
 
         if(email === 'contact@cloudcampus.fr' && password === '0000'){
-          localStorage.setItem('connected', true)
+          sessionStorage.setItem('connected', true)
           return navigate('/')
         }
         alert('Identifiants ou mot de passe incorrect')
