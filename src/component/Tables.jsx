@@ -38,7 +38,6 @@ export default function Tables() {
             let data = JSON.parse(tablesStorage)
             store.dispatch(setTables(data))
         }
-
     }, [])
 
     const filterTables = (id_space, tables) => {
