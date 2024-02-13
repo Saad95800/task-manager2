@@ -47,8 +47,6 @@ request.onupgradeneeded = function(event) {
   }
 
 
-
-
   if(localStorage.getItem('tasks') !== null && localStorage.getItem('tasks') !== ''){
     let tasks = []
     tasks = JSON.parse(localStorage.getItem('tasks'))

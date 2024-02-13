@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { displayMessage } from '../redux/message/MessageSlice'
 import { store } from '../redux/store'
 import { deleteTable, setFormDropTableVisible } from '../redux/table/TableSlice'
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material' 
 import Modal from '@mui/material/Modal';
 import {style} from './styleModal'
 

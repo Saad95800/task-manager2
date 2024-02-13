@@ -7,7 +7,7 @@ import { deleteSpaces, setContextSpace, setSpaces, setViewFormEditSpace } from '
 import { deleteTablesBySpacesId } from '../redux/table/TableSlice'
 import { store } from '../redux/store'
 import Grid from '@mui/material/Unstable_Grid2'
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material'
 import {useNavigate} from 'react-router-dom'
 
 export default function SpaceList(){
@@ -65,6 +65,36 @@ export default function SpaceList(){
                 store.dispatch(deleteTasksByTablesId(tablesToDelete))
                 store.dispatch(deleteTablesBySpacesId(spacesToDelete))
                 store.dispatch(deleteSpaces())
+
+                const request = indexedDB.open('task-managerDB', 2)
+
+                request.onsuccess = function(event){
+                    let db = event.target.result
+
+                    const transaction = db.transaction(['space'], 'readwrite')
+                    const spaceStore = transaction.objectStore("space")
+
+                    for(let id of spacesToDelete){
+                        spaceStore.delete(id)
+                    }
+
+
+                    const transaction2 = db.transaction(['table'], 'readwrite')
+                    const tableStore = transaction2.objectStore("table")
+
+                    for(let id of tablesToDelete){
+                        tableStore.delete(id)
+                    }
+
+                    const transaction3 = db.transaction(['task'], 'readwrite')
+                    const taskStore = transaction3.objectStore("task")
+
+                    for(let id of tablesToDelete){
+                        taskStore.delete({idTable: id})
+                    }
+
+                }
+
             }}>Supprimer en masse</button>
             <button className="btn btn-success" onClick={()=>{ 
                 store.dispatch(setViewFormEditSpace(true))

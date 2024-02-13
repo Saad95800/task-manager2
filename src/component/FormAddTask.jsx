@@ -3,7 +3,7 @@ import { displayMessage } from '../redux/message/MessageSlice'
 import { store } from '../redux/store'
 import { addTask, hideFormUpdateTask, updateTask } from '../redux/task/TaskSlice'
 import { useSelector } from 'react-redux'
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material' 
 import Modal from '@mui/material/Modal';
 import {style} from './styleModal'
 

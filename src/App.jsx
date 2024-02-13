@@ -8,7 +8,7 @@ import { useState } from 'react'
 import Message from './component/Message'
 import { useSelector } from 'react-redux'
 import SpaceList from './component/SpaceList'
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material'
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';

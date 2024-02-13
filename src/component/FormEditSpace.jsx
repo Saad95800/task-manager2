@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { addSpace, setSpaceToEdit, setViewFormEditSpace, updateSpace } from '../redux/space/SpaceSlice'
 import { store } from '../redux/store'
 import { useSelector } from 'react-redux'
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material' 
 import Modal from '@mui/material/Modal';
 import {style} from './styleModal'
 export default function FormEditSpace(){

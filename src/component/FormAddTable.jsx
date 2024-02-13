@@ -4,7 +4,7 @@ import { store } from '../redux/store'
 import { addTable, hideFormUpdateTable, updateTable } from '../redux/table/TableSlice'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material' 
 import Modal from '@mui/material/Modal';
 import {style} from './styleModal'
 

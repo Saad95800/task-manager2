@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { store } from '../redux/store'
 import { addSpaceToDelete, removeSpaceToDelete, setContextSpace, setSpaceToEdit, setViewFormEditSpace } from '../redux/space/SpaceSlice'
 import { useSelector } from 'react-redux'
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material' 
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
