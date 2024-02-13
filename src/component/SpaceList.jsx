@@ -28,12 +28,20 @@ export default function SpaceList(){
           return navigate('/login')
         }
 
-        let spacesStorage = localStorage.getItem('spaces')
+        const request = indexedDB.open('task-managerDB', 2)
 
-        if(spacesStorage !== null && spacesStorage !== ''){
+        request.onsuccess = function(event){
 
-            let data = JSON.parse(spacesStorage)
-            dispatch(setSpaces(data))
+            let db = event.target.result
+
+            const transaction = db.transaction(['space'], 'readonly')
+            const spaceStore = transaction.objectStore("space")
+            const request2 = spaceStore.getAll()
+
+            request2.onsuccess = function(){
+                console.log(request2.result)
+                dispatch(setSpaces(request2.result))
+            }
 
         }
 
