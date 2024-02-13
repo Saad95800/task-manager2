@@ -46,19 +46,22 @@ request.onupgradeneeded = function(event) {
     }    
   }
 
-
-  if(localStorage.getItem('tasks') !== null && localStorage.getItem('tasks') !== ''){
-    let tasks = []
-    tasks = JSON.parse(localStorage.getItem('tasks'))
+    let tasks = [
+      {
+        id: '1',
+        content: "Task content 1",
+        tableId: '2'
+      }
+    ]
 
     for(let task of tasks){
       taskStore.put({
         id: task.id,
         content: task.content,
-        idTable: task.idTable
+        tableId: task.tableId
       })
     }    
-  }
+
 
 }
 

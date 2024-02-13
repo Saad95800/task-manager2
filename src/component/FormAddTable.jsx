@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom'
 import { Box } from '@mui/material' 
 import Modal from '@mui/material/Modal';
 import {style} from './styleModal'
+import { updateTableIDB } from '../utils/TableServices'
 
 export default function FormAddTable({context, open}) {
 
@@ -33,7 +34,13 @@ export default function FormAddTable({context, open}) {
                     store.dispatch(addTable({title, spaceId: id}))
                     store.dispatch( displayMessage({texte: 'Tableau ajouté avec succès !', typeMessage: 'success'}) )
                 }else{
-                    store.dispatch(updateTable({tableTitle: title, id_table: tableToEdit.id}))
+                    let newTable = {tableTitle: title, id_table: tableToEdit.id}
+                    store.dispatch(updateTable(newTable))
+                    updateTableIDB({
+                        id: tableToEdit.id,
+                        title: title,
+                        spaceId: tableToEdit.spaceId
+                    })
                     store.dispatch( displayMessage({texte: 'Tableau modifié avec succès !', typeMessage: 'success'}) )
                 }
                 setTitle('')

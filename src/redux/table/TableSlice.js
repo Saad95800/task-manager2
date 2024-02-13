@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { v4 as uuidv4 } from 'uuid'
+import { deleteTableIDB, updateTableIDB } from '../../utils/TableServices'
 
 const initialState = {
     tables: [
@@ -92,9 +93,7 @@ export const TableSlice = createSlice({
                 spaceId: spaceId
             }
     
-            let tablesStorage = JSON.parse(localStorage.getItem('tables'))
-            tablesStorage.push(newTable)
-            localStorage.setItem('tables', JSON.stringify(tablesStorage))
+            updateTableIDB(newTable)
 
             state.tables = [...state.tables, newTable]
             state.formAddTableVisible = false
@@ -105,6 +104,7 @@ export const TableSlice = createSlice({
             let newTables = [...state.tables].filter((tab) => tab.id.toString() !== id.toString())
             localStorage.setItem('tables', JSON.stringify(newTables))
             state.tables = newTables
+            deleteTableIDB(id)
         },
         updateTable: (state, action) => {
             let tableTitle = action.payload.tableTitle
@@ -115,7 +115,7 @@ export const TableSlice = createSlice({
             newTables[index].title = tableTitle
             state.tables = newTables
             state.formAddTableVisible = false
-            state.tableToEdit = null
+            state.tableToEdit = null 
         },
         hideFormUpdateTable: (state) => {
             state.formAddTableVisible = false
