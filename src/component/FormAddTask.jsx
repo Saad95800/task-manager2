@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 import { Box } from '@mui/material' 
 import Modal from '@mui/material/Modal';
 import {style} from './styleModal'
+import { updateTaskIDB } from '../utils/TaskServices'
 
 export default function FormAddTask({tables, context, open}) {
 
@@ -36,6 +37,11 @@ export default function FormAddTask({tables, context, open}) {
                     store.dispatch( displayMessage({texte: 'Tâche ajouté avec succès !', typeMessage: 'success'}) )
                 }else{
                     store.dispatch( updateTask({taskContent, id_task: taskToEdit.id}) )
+                    updateTaskIDB({
+                        id: taskToEdit.id,
+                        content: taskContent,
+                        tableId
+                    })
                     store.dispatch( displayMessage({texte: 'Tâche modifiée avec succès !', typeMessage: 'success'}) )
                 }
                 
