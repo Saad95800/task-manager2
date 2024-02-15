@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux'
 import { Box } from '@mui/material' 
 import Modal from '@mui/material/Modal';
 import {style} from './styleModal'
+import { addSpacesAPI } from '../api/SpaceAPI'
+import { v4 as uuidv4 } from 'uuid'
 export default function FormEditSpace(){
 
     const spaces = useSelector((state) => state.space.spaces)
@@ -33,7 +35,9 @@ export default function FormEditSpace(){
                             store.dispatch(updateSpace({title, spaceId: spaceToEdit.id, color: color}))
                         }
                     }else{
-                        store.dispatch(addSpace({title, color: color}))
+                        let id = uuidv4()
+                        store.dispatch(addSpace({id, title, color: color}))
+                        addSpacesAPI(id, title, color)
                     }
 
                 }}>

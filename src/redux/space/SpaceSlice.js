@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { v4 as uuidv4 } from 'uuid'
 
 const initialState = {
     spaces: [],
@@ -52,9 +51,10 @@ export const SpaceSlice = createSlice({
         addSpace: (state, action) => {
             let title = action.payload.title
             let color = action.payload.color
+            let id = action.payload.id
 
             let newSpace = {
-                id: uuidv4(),
+                id: id,
                 title,
                 color
             }
