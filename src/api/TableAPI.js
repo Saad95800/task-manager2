@@ -13,7 +13,7 @@ export function getTables(){
 
             for(let tb of tablesFirebase){
                 let table = {
-                    id: tb.fields.id.stringValue,
+                    id: tb.name.split('/table/')[1],
                     title: tb.fields.title.stringValue,
                     order: tb.fields.order.stringValue,
                     spaceId: tb.fields.spaceId.stringValue,

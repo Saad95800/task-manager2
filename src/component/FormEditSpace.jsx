@@ -28,16 +28,15 @@ export default function FormEditSpace(){
         >
             <Box sx={style}>
                 <h3>{contextSpace === "add" ? 'Ajouter un espace' : "Modifier un espace"}</h3>
-                <form onSubmit={(e)=>{
+                <form onSubmit={async (e)=>{
                     e.preventDefault()
                     if(contextSpace === 'edit'){
                         if(spaceToEdit !== null){
                             store.dispatch(updateSpace({title, spaceId: spaceToEdit.id, color: color}))
                         }
                     }else{
-                        let id = uuidv4()
+                        let id = await addSpacesAPI(title, color)
                         store.dispatch(addSpace({id, title, color: color}))
-                        addSpacesAPI(id, title, color)
                     }
 
                 }}>
