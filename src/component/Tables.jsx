@@ -6,15 +6,18 @@ import FormAddTask from './FormAddTask'
 import {Link, useNavigate, useParams} from 'react-router-dom'
 import {produce} from 'immer'
 import { displayFormAddTable, setFormDropTableVisible, setTables } from '../redux/table/TableSlice'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { store } from '../redux/store'
 import { setFormAddTaskVisible, setTasks } from '../redux/task/TaskSlice'
+import { getTables } from '../api/TableAPI'
+import { getTasks } from '../api/TaskAPI'
 
 export default function Tables() {
 
     const {id} = useParams()
 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const tables = useSelector((state) => state.table.tables)
     const formAddTableVisible = useSelector((state) => state.table.formAddTableVisible)
@@ -32,12 +35,17 @@ export default function Tables() {
           return navigate('/login')
         }
 
-        let tablesStorage = localStorage.getItem('tables')
-
-        if(tablesStorage !== null && tablesStorage !== ''){
-            let data = JSON.parse(tablesStorage)
-            store.dispatch(setTables(data))
+        const fetchTables = async () => {
+            let tables = await getTables()
+            dispatch(setTables(tables))
         }
+        fetchTables()
+
+        const fetchTasks = async () => {
+            let tasks = await getTasks()
+            dispatch(setTasks(tasks))
+        }
+        fetchTasks()
     }, [])
 
     const filterTables = (id_space, tables) => {

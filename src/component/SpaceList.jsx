@@ -9,6 +9,7 @@ import { store } from '../redux/store'
 import Grid from '@mui/material/Unstable_Grid2'
 import { Box } from '@mui/material'
 import {useNavigate} from 'react-router-dom'
+import { getSpaces } from '../api/SpaceAPI'
 
 export default function SpaceList(){
 
@@ -28,22 +29,12 @@ export default function SpaceList(){
           return navigate('/login')
         }
 
-        const request = indexedDB.open('task-managerDB', 2)
-
-        request.onsuccess = function(event){
-
-            let db = event.target.result
-
-            const transaction = db.transaction(['space'], 'readonly')
-            const spaceStore = transaction.objectStore("space")
-            const request2 = spaceStore.getAll()
-
-            request2.onsuccess = function(){
-                console.log(request2.result)
-                dispatch(setSpaces(request2.result))
-            }
-
+        const fetchSpaces = async () => {
+            let spaces = await getSpaces()
+            dispatch(setSpaces(spaces))
         }
+
+        fetchSpaces()
 
     }, [])
 
