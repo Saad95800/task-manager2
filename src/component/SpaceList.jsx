@@ -9,7 +9,9 @@ import { store } from '../redux/store'
 import Grid from '@mui/material/Unstable_Grid2'
 import { Box } from '@mui/material'
 import {useNavigate} from 'react-router-dom'
-import { getSpaces } from '../api/SpaceAPI'
+import { deleteSpacesAPI, getSpaces } from '../api/SpaceAPI'
+import { deleteTablesAPI } from '../api/TableAPI'
+import { deleteTasksAPI } from '../api/TaskAPI'
 
 export default function SpaceList(){
 
@@ -19,6 +21,7 @@ export default function SpaceList(){
     const viewFormEditSpace = useSelector(state => state.space.viewFormEditSpace)
     const spaces = useSelector((state) => state.space.spaces)
     const tables = useSelector((state) => state.table.tables)
+    const tasks = useSelector((state) => state.task.tasks)
     const spacesToDelete = useSelector((state) => state.space.spacesToDelete)
 
 
@@ -49,42 +52,41 @@ export default function SpaceList(){
         return tablesToDelete
     }
 
+    const getTasksToDelete = (tablesToDelete) => {
+
+        let tasksIdToDelete = []
+
+        for(let t of tasks){
+            if(tablesToDelete.includes(t.tableId)){
+                tasksIdToDelete.push(t.id)
+            }
+        }
+
+        return tasksIdToDelete
+
+    }
+
     return (
         <div className="container mt-3">
             <button className="btn btn-danger" onClick={()=>{
                 let tablesToDelete = getTablesToDeleteBySpacesToDelete(spacesToDelete)
+                let tasksToDelete = getTasksToDelete(tablesToDelete)
                 store.dispatch(deleteTasksByTablesId(tablesToDelete))
                 store.dispatch(deleteTablesBySpacesId(spacesToDelete))
                 store.dispatch(deleteSpaces())
 
-                const request = indexedDB.open('task-managerDB', 2)
-
-                request.onsuccess = function(event){
-                    let db = event.target.result
-
-                    const transaction = db.transaction(['space'], 'readwrite')
-                    const spaceStore = transaction.objectStore("space")
-
-                    for(let id of spacesToDelete){
-                        spaceStore.delete(id)
-                    }
-
-
-                    const transaction2 = db.transaction(['table'], 'readwrite')
-                    const tableStore = transaction2.objectStore("table")
-
-                    for(let id of tablesToDelete){
-                        tableStore.delete(id)
-                    }
-
-                    const transaction3 = db.transaction(['task'], 'readwrite')
-                    const taskStore = transaction3.objectStore("task")
-
-                    for(let id of tablesToDelete){
-                        taskStore.delete({idTable: id})
-                    }
-
+                for(let id of spacesToDelete){
+                    deleteSpacesAPI(id)
                 }
+
+                for(let id of tablesToDelete){
+                    deleteTablesAPI(id)
+                }
+
+                for(let id of tasksToDelete){
+                    deleteTasksAPI(id)
+                }
+
 
             }}>Supprimer en masse</button>
             <button className="btn btn-success" onClick={()=>{ 

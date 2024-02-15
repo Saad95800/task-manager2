@@ -38,7 +38,6 @@ export default function FormEditSpace(){
                         let id = await addSpacesAPI(title, color)
                         store.dispatch(addSpace({id, title, color: color}))
                     }
-
                 }}>
                     <div className="form-group">
                         <input type="text" className='form-control' value={title} onChange={(e)=>{ setTitle(e.target.value) }} />
