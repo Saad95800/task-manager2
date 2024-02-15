@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { Box } from '@mui/material' 
 import Modal from '@mui/material/Modal';
 import {style} from './styleModal'
-import { addSpacesAPI } from '../api/SpaceAPI'
+import { addSpacesAPI, updateSpacesAPI } from '../api/SpaceAPI'
 import { v4 as uuidv4 } from 'uuid'
 export default function FormEditSpace(){
 
@@ -32,6 +32,7 @@ export default function FormEditSpace(){
                     e.preventDefault()
                     if(contextSpace === 'edit'){
                         if(spaceToEdit !== null){
+                            updateSpacesAPI(spaceToEdit.id, title, color)
                             store.dispatch(updateSpace({title, spaceId: spaceToEdit.id, color: color}))
                         }
                     }else{

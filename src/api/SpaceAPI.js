@@ -76,3 +76,32 @@ export function deleteSpacesAPI(id){
     }
 
 }
+
+export function updateSpacesAPI(id, title, color){
+
+    const url_update_space = "https://firestore.googleapis.com/v1/projects/" + import.meta.env.VITE_PROJECT_ID + "/databases/(default)/documents/space/" + id + "?key=" + import.meta.env.VITE_API_KEY
+
+    try{
+
+        return axios.patch(
+            url_update_space,
+            {
+                "fields": {
+                  "title": {
+                    "stringValue": title
+                  },
+                  "color": {
+                    "stringValue": color
+                  }
+                }
+              }
+        )
+        .then(function(response){
+            console.log(response)
+        })
+
+    } catch(e){
+        console.error(e)
+    }
+
+}
