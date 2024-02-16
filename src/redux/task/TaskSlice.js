@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { v4 as uuidv4 } from 'uuid'
 import { deleteTaskIDB, updateTaskIDB } from '../../utils/TaskServices'
 
 const initialState = {
@@ -30,17 +29,16 @@ export const TaskSlice = createSlice({
         addTask: (state, action) => {
             let taskContent = action.payload.taskContent
             let tableId = action.payload.tableId
+            let id = action.payload.id
 
 
                 let newTask = {
-                    id: uuidv4(),
+                    id: id,
                     content: taskContent,
                     tableId
                 }
     
                 state.tasks.push(newTask)
-    
-                updateTaskIDB(newTask)
 
                 state.formAddTaskVisible = false
                 state.taskToEdit = null

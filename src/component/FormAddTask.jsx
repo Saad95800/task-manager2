@@ -7,6 +7,7 @@ import { Box } from '@mui/material'
 import Modal from '@mui/material/Modal';
 import {style} from './styleModal'
 import { updateTaskIDB } from '../utils/TaskServices'
+import { addTaskAPI, updateTaskAPI } from '../api/TaskAPI'
 
 export default function FormAddTask({tables, context, open}) {
 
@@ -25,7 +26,7 @@ export default function FormAddTask({tables, context, open}) {
         aria-describedby="modal-modal-description"
     >
     <Box sx={style}>
-        <form onSubmit={(e)=>{
+        <form onSubmit={async (e)=>{
                 e.preventDefault()
                 
                 if( context === 'add' && tableId.toString() === '0'){
@@ -33,9 +34,11 @@ export default function FormAddTask({tables, context, open}) {
                 }
 
                 if(context === 'add'){
-                    store.dispatch(addTask({taskContent, tableId}))
+                    let taskId = await addTaskAPI(taskContent, tableId)
+                    store.dispatch(addTask({id: taskId, taskContent, tableId}))
                     store.dispatch( displayMessage({texte: 'Tâche ajouté avec succès !', typeMessage: 'success'}) )
                 }else{
+                    await updateTaskAPI(taskToEdit.id, taskContent, taskToEdit.tableId)
                     store.dispatch( updateTask({taskContent, id_task: taskToEdit.id}) )
                     updateTaskIDB({
                         id: taskToEdit.id,
