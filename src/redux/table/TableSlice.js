@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { v4 as uuidv4 } from 'uuid'
 import { deleteTableIDB, updateTableIDB } from '../../utils/TableServices'
 
 const initialState = {
@@ -87,13 +86,14 @@ export const TableSlice = createSlice({
         addTable: (state, action) => {
             let title = action.payload.title
             let spaceId = action.payload.spaceId
+            let id = action.payload.id
+            let order = action.payload.order
             const newTable = {
-                id: uuidv4(),
+                id: id,
                 title: title,
-                spaceId: spaceId
+                spaceId: spaceId,
+                order
             }
-    
-            updateTableIDB(newTable)
 
             state.tables = [...state.tables, newTable]
             state.formAddTableVisible = false

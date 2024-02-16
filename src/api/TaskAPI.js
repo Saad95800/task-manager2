@@ -11,15 +11,19 @@ export function getTasks(){
             let tasksFirebase = response.data.documents
             let tasks = []
 
-            for(let ts of tasksFirebase){
-                let task = {
-                    id: ts.name.split('/task/')[1],
-                    content: ts.fields.content.stringValue,
-                    tableId: ts.fields.tableId.stringValue,
+            if(tasksFirebase !== undefined){
+                for(let ts of tasksFirebase){
+                    let task = {
+                        id: ts.name.split('/task/')[1],
+                        content: ts.fields.content.stringValue,
+                        tableId: ts.fields.tableId.stringValue,
+                    }
+                    tasks.push(task)
                 }
-                tasks.push(task)
+                return tasks                
             }
-            return tasks
+            return []
+
         })
 
     } catch(e){
