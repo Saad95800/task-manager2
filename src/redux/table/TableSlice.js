@@ -104,7 +104,7 @@ export const TableSlice = createSlice({
             let newTables = [...state.tables].filter((tab) => tab.id.toString() !== id.toString())
             localStorage.setItem('tables', JSON.stringify(newTables))
             state.tables = newTables
-            deleteTableIDB(id)
+            state.formDropTableVisible = false
         },
         updateTable: (state, action) => {
             let tableTitle = action.payload.tableTitle

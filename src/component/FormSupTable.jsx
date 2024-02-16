@@ -5,6 +5,7 @@ import { deleteTable, setFormDropTableVisible } from '../redux/table/TableSlice'
 import { Box } from '@mui/material' 
 import Modal from '@mui/material/Modal';
 import {style} from './styleModal'
+import { deleteTableAPI } from '../api/TableAPI'
 
 export default function FormSupTable({tables, open}) {
 
@@ -19,11 +20,12 @@ export default function FormSupTable({tables, open}) {
         aria-describedby="modal-modal-description"
     >
         <Box sx={style}>
-            <form onSubmit={(e)=>{
+            <form onSubmit={async (e)=>{
                     e.preventDefault()
                     if(idTableSelected.toString() === '0'){
                         alert('Veuillez sélectionner un tableau à supprimer.'); return
                     }
+                    await deleteTableAPI(idTableSelected)
                     store.dispatch(deleteTable(idTableSelected))
                     store.dispatch( displayMessage({texte: 'Tableau supprimée avec succès !', typeMessage: 'success'}) )
                     setIdTableSelected('0')

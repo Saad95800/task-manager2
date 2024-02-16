@@ -115,3 +115,23 @@ export function updateTableAPI(id, title, spaceId, order){
     }
 
 }
+
+
+export function deleteTableAPI(id){
+
+    const url_delete_table = "https://firestore.googleapis.com/v1/projects/" + import.meta.env.VITE_PROJECT_ID + "/databases/(default)/documents/table/" + id + "?key=" + import.meta.env.VITE_API_KEY
+
+    try{
+
+        return axios.delete(
+            url_delete_table
+        )
+        .then(function(response){
+            console.log(response)
+        })
+
+    } catch(e){
+        console.error(e)
+    }
+
+}
